@@ -1,19 +1,34 @@
-# Real-Time Sales Analytics Platform  
-*Snowflake + dbt + Kafka + Airflow + Azure Storage*
+# Real-Time Sales Analytics (Airflow + dbt demo)
 
-A production-style data platform that streams e-commerce events into Kafka, lands raw data in cloud storage, loads it to Snowflake, transforms it with dbt, and orchestrates the pipeline end-to-end with Airflow.  
-Includes **data quality checks**, **dimensional models**, and a ready-to-use analytics layer.
+A minimal, recruiter-ready project that simulates a real-time pipeline using **Airflow** to generate events and run a toy transform. Designed to be pushed to GitHub and run locally with Docker.
 
----
-
-## 📌 Architecture
-
+## Architecture
 ```mermaid
 flowchart LR
-  A[Python Generator] -->|JSON events| K[Apache Kafka]
-  K --> C[Consumer]
-  C -->|land raw| D[(Azure Data Lake / Blob)]
-  D --> S[Snowflake Staging]
-  S -->|ELT| T[dbt Models - Staging to Marts]
-  T --> BI[BI / Queries]
-  A -. Airflow DAG orchestrates .-> K
+A[Generator DAG] -->|writes JSON files| D[(Data folder)]
+D --> T[Transform DAG]
+T --> BI[Analytics-ready output]
+A -. Orchestrated by Airflow .-> T
+```
+
+## Quickstart
+
+### 1) Start Airflow (Docker)
+```bash
+docker-compose up -d
+```
+
+- Airflow Web UI: http://localhost:8080  
+- Login: `admin` / `admin`
+
+### 2) Enable DAGs
+In the Web UI, turn on:
+- `generate_events_dag`
+- `toy_transform_dag`
+
+### 3) Where data lands
+Generated JSON files are written under `airflow/dags/data/`.  
+The transform reads them and writes a small summary to `airflow/dags/data/_outputs/`.
+
+> Note: This minimal starter does **not** require Kafka/Snowflake/dbt to run.
+You can extend it later.

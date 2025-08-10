@@ -1,0 +1,1 @@
+select count(*) as cnt, sum(amount) as total from {{ ref('stg_sales') }}
