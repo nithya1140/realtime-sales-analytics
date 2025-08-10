@@ -14,6 +14,6 @@ flowchart LR
   K --> C[Consumer]
   C -->|land raw| D[(Azure Data Lake / Blob)]
   D --> S[Snowflake Staging]
-  S -->|ELT| T[dbt Models (Staging -> Marts)]
+  S -->|ELT| T[dbt Models - Staging to Marts]
   T --> BI[BI / Queries]
   A -. Airflow DAG orchestrates .-> K
