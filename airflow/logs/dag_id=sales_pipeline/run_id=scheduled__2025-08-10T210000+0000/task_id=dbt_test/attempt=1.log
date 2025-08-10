@@ -1,0 +1,22 @@
+[2025-08-10T21:22:03.115+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-08-10T21:22:03.152+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: sales_pipeline.dbt_test scheduled__2025-08-10T21:00:00+00:00 [queued]>
+[2025-08-10T21:22:03.160+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: sales_pipeline.dbt_test scheduled__2025-08-10T21:00:00+00:00 [queued]>
+[2025-08-10T21:22:03.163+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-08-10T21:22:03.175+0000] {taskinstance.py:2330} INFO - Executing <Task(BashOperator): dbt_test> on 2025-08-10 21:00:00+00:00
+[2025-08-10T21:22:03.187+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62 DeprecationWarning: This process (pid=207) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-08-10T21:22:03.188+0000] {standard_task_runner.py:64} INFO - Started process 208 to run task
+[2025-08-10T21:22:03.183+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'sales_pipeline', 'dbt_test', 'scheduled__2025-08-10T21:00:00+00:00', '--job-id', '8', '--raw', '--subdir', 'DAGS_FOLDER/sales_pipeline_dag.py', '--cfg-path', '/tmp/tmp0oupdb9n']
+[2025-08-10T21:22:03.190+0000] {standard_task_runner.py:91} INFO - Job 8: Subtask dbt_test
+[2025-08-10T21:22:03.288+0000] {task_command.py:426} INFO - Running <TaskInstance: sales_pipeline.dbt_test scheduled__2025-08-10T21:00:00+00:00 [running]> on host f376c7797b47
+[2025-08-10T21:22:03.398+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data' AIRFLOW_CTX_DAG_ID='sales_pipeline' AIRFLOW_CTX_TASK_ID='dbt_test' AIRFLOW_CTX_EXECUTION_DATE='2025-08-10T21:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-08-10T21:00:00+00:00'
+[2025-08-10T21:22:03.399+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-08-10T21:22:03.414+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2025-08-10T21:22:03.415+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', '\n            if [ -d "/opt/***/dags/dbt_project" ]; then\n              cd "/opt/***/dags/dbt_project" && dbt test\n            else\n              echo "dbt project not found at /opt/***/dags/dbt_project, skipping tests."\n            fi\n        ']
+[2025-08-10T21:22:03.425+0000] {subprocess.py:86} INFO - Output:
+[2025-08-10T21:22:03.428+0000] {subprocess.py:93} INFO - dbt project not found at /opt/***/dags/dbt_project, skipping tests.
+[2025-08-10T21:22:03.429+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2025-08-10T21:22:03.431+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-08-10T21:22:03.469+0000] {taskinstance.py:1206} INFO - Marking task as SUCCESS. dag_id=sales_pipeline, task_id=dbt_test, run_id=scheduled__2025-08-10T21:00:00+00:00, execution_date=20250810T210000, start_date=20250810T212203, end_date=20250810T212203
+[2025-08-10T21:22:03.524+0000] {local_task_job_runner.py:243} INFO - Task exited with return code 0
+[2025-08-10T21:22:03.560+0000] {taskinstance.py:3503} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-08-10T21:22:03.565+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
