@@ -1,14 +1,47 @@
+volumes:
+  airflow_home: {}   # shared Airflow home across all services
 
 services:
-  airflow:
+  airflow-init:
     image: apache/airflow:2.5.0
     environment:
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
-    ports:
-      - "8080:8080"
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW_UID: "50000"
+    user: "50000:0"
     volumes:
-      - ./airflow/dags:/opt/airflow/dags
+      - airflow_home:/opt/airflow          # share the DB and AIRFLOW_HOME
+      - ./airflow/dags:/opt/airflow/dags   # your DAGs
+    entrypoint: bash -lc
     command: >
-      bash -c "airflow db init &&
-               airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com &&
-               airflow webserver & airflow scheduler"
+      "airflow db reset -y &&
+       airflow db init &&
+       airflow users create
+         --username admin --password admin
+         --firstname Admin --lastname User
+         --role Admin --email admin@example.com"
+
+  airflow-webserver:
+    image: apache/airflow:2.5.0
+    environment:
+      AIRFLOW_UID: "50000"
+    user: "50000:0"
+    depends_on:
+      - airflow-init
+    ports:
+      - "8081:8080"      # open http://localhost:8081
+    volumes:
+      - airflow_home:/opt/airflow
+      - ./airflow/dags:/opt/airflow/dags
+    command: bash -lc "airflow webserver"
+
+  airflow-scheduler:
+    image: apache/airflow:2.5.0
+    environment:
+      AIRFLOW_UID: "50000"
+    user: "50000:0"
+    depends_on:
+      - airflow-init
+    volumes:
+      - airflow_home:/opt/airflow
+      - ./airflow/dags:/opt/airflow/dags
+    command: bash -lc "airflow scheduler"
